@@ -1,83 +1,91 @@
-let firstNumber ='';       
-let secondNumber ='';       
-let sign ='';               // знак операції(+-*/)
+// Змінні для чисел і знака
+let firstNumber = '';
+let secondNumber = '';
+let sign = '';
 let finish = false;
 
-const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',];
+// Клавіші
+const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 const action = ['-', '+', '*', '/'];
 
-// екран
-const out = document.querySelector('.calculatorScreen p')
+// Вибираємо екрани
+const previous = document.querySelector('.previous');
+const current = document.querySelector('.current');
 
-function clearAll (){
-    firstNumber = '';    //first number and result
-    secondNumber = '';
-    sign = '';
-    finish = false;
-    out.textContent = 0;  
+// Очистити все
+function clearAll() {
+  firstNumber = '';
+  secondNumber = '';
+  sign = '';
+  finish = false;
+  current.textContent = 0;
+  previous.textContent = '';
 }
 
+// Клік по кнопці "AC"
 document.querySelector('.ac').onclick = clearAll;
 
+// Обробка натискання кнопок
 document.querySelector('.buttons').onclick = (event) => {
-    // натиснута не клавіша
-    if (!event.target.classList.contains('button')) return;
-    // натиснута клавіша clearAll AC
-    if (event.target.classList.contains('ac')) return;
+  // Не кнопка - ігноруємо
+  if (!event.target.classList.contains('button')) return;
 
-    out.textContent = '';
+  // Кнопка "AC" - ігноруємо (бо є окремий обробник)
+  if (event.target.classList.contains('ac')) return;
 
-    // отримання натиснутої клавіші 
-    const key = event.target.textContent;
-     
-    // якщо натиснута клавіша 0-9 або '.' - (крапка)
-    if (digit.includes(key)) {
-        if (secondNumber === ''&& sign ===''){
-            firstNumber += key;
-            out.textContent = firstNumber;
-        }
-        else if (firstNumber!=='' && secondNumber!=='' && finish){
-            secondNumber = key;
-            finish = false;
-            out.textContent = firstNumber;
-        }
-        else{
-            secondNumber += key;
-            out.textContent = secondNumber;
-        }
-        console.log(firstNumber, secondNumber, sign)
+  const key = event.target.textContent;
+
+  // Натиснута цифра або крапка
+  if (digit.includes(key)) {
+    if (secondNumber === '' && sign === '') {
+      firstNumber += key;
+      current.textContent = firstNumber;
+    } else if (firstNumber !== '' && secondNumber !== '' && finish) {
+      secondNumber = key;
+      finish = false;
+      current.textContent = secondNumber;
+    } else {
+      secondNumber += key;
+      current.textContent = secondNumber;
     }
+    return;
+  }
 
-    // якщо натиснута клавіша +-/*
-    if(action.includes(key)) {
-        sign = key;
-        out.textContent = sign;
-        console.log(sign);
-        return;
-    }
+  // Натиснуто знак операції
+  if (action.includes(key)) {
+    sign = key;
+    previous.textContent = firstNumber + ' ' + sign;
+    current.textContent = '';
+    return;
+  }
 
-    // натиснута клавіша =
-    if(key ==='='){
-        if(secondNumber ==='') secondNumber = firstNumber;
-        switch(sign){
-            case "+":
-                firstNumber = (+firstNumber) + (+secondNumber);
-                break;
-            case "-":
-                firstNumber = firstNumber - secondNumber;
-                break;
-            case "*":
-                firstNumber = firstNumber * secondNumber;
-                break;
-            case "/":
-                if(secondNumber === 0){
-                    out.textContent = 'Помилка'
-                }
-                firstNumber = firstNumber / secondNumber;
-                break;
+  // Натиснуто "="
+  if (key === '=') {
+    if (secondNumber === '') secondNumber = firstNumber;
+    switch (sign) {
+      case '+':
+        firstNumber = +firstNumber + +secondNumber;
+        break;
+      case '-':
+        firstNumber = firstNumber - secondNumber;
+        break;
+      case '*':
+        firstNumber = firstNumber * secondNumber;
+        break;
+      case '/':
+        if (secondNumber === '0') {
+          current.textContent = 'Помилка';
+          previous.textContent = '';
+          firstNumber = '';
+          secondNumber = '';
+          sign = '';
+          return;
         }
-        finish = true;
-        out.textContent = firstNumber;
-        console.log(firstNumber, secondNumber, sign)
+        firstNumber = firstNumber / secondNumber;
+        break;
     }
-}
+    finish = true;
+    current.textContent = firstNumber;
+    previous.textContent = '';
+  }
+};
