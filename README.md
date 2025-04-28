@@ -6,7 +6,7 @@ This project is a **simple and stylish calculator** built using core web technol
 
 <p align="center">
   <a href="https://denis793.github.io/Calculator/">
-    <img src="https://img.shields.io/badge/View%20Project-Click%20Here-blue?style=for-the-badge" alt="View Project">
+    <img src="https://img.shields.io/badge/View%20Project-Click%20Here-blue?style=for-the-badge" alt="Calculator" height="420" width="auto">
   </a>
 </p>
 
