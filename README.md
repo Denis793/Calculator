@@ -14,8 +14,9 @@ This project is a **simple and stylish calculator** built using core web technol
 
 
 ### 🖼️ Screenshot
-
-<img src="https://github.com/Denis793/Calculator/blob/main/Calculator.png" alt="View click" height="420" width="auto" align="center">
+<div align="center">
+  <img src="https://github.com/Denis793/Calculator/blob/main/Calculator.png" alt="View click" height="420" width="auto">
+</div>
 
 ---
 
