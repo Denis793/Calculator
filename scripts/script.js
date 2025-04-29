@@ -1,46 +1,37 @@
-// Змінні для чисел і знака
 let firstNumber = '';
 let secondNumber = '';
 let sign = '';
 let finish = false;
 
-// Клавіші
 const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 const action = ['-', '+', '*', '/'];
 
-// Вибираємо екрани
 const previous = document.querySelector('.previous');
 const current = document.querySelector('.current');
+const buttons = document.querySelector('.buttons');
 
-// Очистити все
 function clearAll() {
   firstNumber = '';
   secondNumber = '';
   sign = '';
   finish = false;
-  current.textContent = 0;
+  current.textContent = '0';
   previous.textContent = '';
 }
 
-// Клік по кнопці "AC"
-document.querySelector('.ac').onclick = clearAll;
+document.querySelector('.ac').addEventListener('click', clearAll);
 
-// Обробка натискання кнопок
-document.querySelector('.buttons').onclick = (event) => {
-  // Не кнопка - ігноруємо
-  if (!event.target.classList.contains('button')) return;
+buttons.addEventListener('click', (e) => {
+  const btn = e.target;
+  if (!btn.classList.contains('button') || btn.classList.contains('ac')) return;
 
-  // Кнопка "AC" - ігноруємо (бо є окремий обробник)
-  if (event.target.classList.contains('ac')) return;
+  const key = btn.textContent;
 
-  const key = event.target.textContent;
-
-  // Натиснута цифра або крапка
   if (digit.includes(key)) {
-    if (secondNumber === '' && sign === '') {
+    if (sign === '' && !finish) {
       firstNumber += key;
       current.textContent = firstNumber;
-    } else if (firstNumber !== '' && secondNumber !== '' && finish) {
+    } else if (firstNumber !== '' && finish) {
       secondNumber = key;
       finish = false;
       current.textContent = secondNumber;
@@ -51,41 +42,41 @@ document.querySelector('.buttons').onclick = (event) => {
     return;
   }
 
-  // Натиснуто знак операції
   if (action.includes(key)) {
     sign = key;
-    previous.textContent = firstNumber + ' ' + sign;
+    previous.textContent = `${firstNumber} ${sign}`;
     current.textContent = '';
     return;
   }
 
-  // Натиснуто "="
   if (key === '=') {
-    if (secondNumber === '') secondNumber = firstNumber;
+    if (!secondNumber) secondNumber = firstNumber;
+
+    const a = parseFloat(firstNumber);
+    const b = parseFloat(secondNumber);
+
     switch (sign) {
       case '+':
-        firstNumber = +firstNumber + +secondNumber;
+        firstNumber = a + b;
         break;
       case '-':
-        firstNumber = firstNumber - secondNumber;
+        firstNumber = a - b;
         break;
       case '*':
-        firstNumber = firstNumber * secondNumber;
+        firstNumber = a * b;
         break;
       case '/':
-        if (secondNumber === '0') {
+        if (b === 0) {
           current.textContent = 'Помилка';
-          previous.textContent = '';
-          firstNumber = '';
-          secondNumber = '';
-          sign = '';
+          clearAll();
           return;
         }
-        firstNumber = firstNumber / secondNumber;
+        firstNumber = a / b;
         break;
     }
+
     finish = true;
     current.textContent = firstNumber;
     previous.textContent = '';
   }
-};
+});
