@@ -67,7 +67,7 @@ buttons.addEventListener('click', (e) => {
         break;
       case '/':
         if (b === 0) {
-          current.textContent = 'Помилка';
+          current.textContent = 'Error';
           clearAll();
           return;
         }
