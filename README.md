@@ -8,10 +8,10 @@
 
 ---
 
-
 ### 🖼️ Screenshot
+
 <div align="center">
-  <img src="https://github.com/Denis793/Calculator/blob/main/Calculator.png" alt="View click" height="420" width="auto">
+  <img src="https://github.com/Denis793/Calculator/blob/main/app/img/Calculator.png" alt="View click" height="420" width="auto">
 </div>
 
 ---
@@ -53,7 +53,6 @@
 - Manages all **button interactions** and **calculations**.
 - Dynamically **updates the screen** with each input.
 - Handles **input sequencing**, **operation chaining**, and **special functions**.
-
 
 ---
 
